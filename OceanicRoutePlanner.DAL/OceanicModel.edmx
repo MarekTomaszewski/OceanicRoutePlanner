@@ -1,0 +1,590 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="OceanicRoutePlanner.DAL.OceanicModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CategoryPrice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="50" />
+          <Property Name="PriceRate" Type="decimal" Precision="3" Scale="2" />
+        </EntityType>
+        <EntityType Name="SizingRange">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaxHeight" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MaxDepth" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MaxBreadth" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="SizingWeightPrice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Weight" Type="int" />
+          <Property Name="Size" Type="int" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="WeightsRange">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WeightFrom" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="WeightTo" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Connection">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Node1" Type="int" Nullable="false" />
+          <Property Name="Node2" Type="int" Nullable="false" />
+          <Property Name="Duration" Type="int" />
+          <Property Name="Cost" Type="decimal" Precision="3" Scale="2" />
+          <Property Name="PlaneType" Type="int" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="City_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PlaneCapacity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaxWidth" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MaxLenght" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MaxHeight" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MaxWeight" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="UserPermission">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User" Type="int" />
+          <Property Name="Permission" Type="int" />
+        </EntityType>
+        <Association Name="FK_Connection_Destination">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Connection" Type="Self.Connection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Connection">
+              <PropertyRef Name="Node2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Connection_Origin">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Connection" Type="Self.Connection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Connection">
+              <PropertyRef Name="Node1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Connection_PlaneCapacity">
+          <End Role="PlaneCapacity" Type="Self.PlaneCapacity" Multiplicity="0..1" />
+          <End Role="Connection" Type="Self.Connection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlaneCapacity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Connection">
+              <PropertyRef Name="PlaneType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SizingWeightPrice_Size">
+          <End Role="SizingRange" Type="Self.SizingRange" Multiplicity="0..1" />
+          <End Role="SizingWeightPrice" Type="Self.SizingWeightPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SizingRange">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SizingWeightPrice">
+              <PropertyRef Name="Size" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SizingWeightPrice_Weight">
+          <End Role="WeightsRange" Type="Self.WeightsRange" Multiplicity="0..1" />
+          <End Role="SizingWeightPrice" Type="Self.SizingWeightPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WeightsRange">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SizingWeightPrice">
+              <PropertyRef Name="Weight" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserPermission_Permission">
+          <End Role="Permission" Type="Self.Permission" Multiplicity="0..1" />
+          <End Role="UserPermission" Type="Self.UserPermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permission">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserPermission">
+              <PropertyRef Name="Permission" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserPermission_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="UserPermission" Type="Self.UserPermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserPermission">
+              <PropertyRef Name="User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OceanicRoutePlannerDALOceanicModelStoreContainer">
+          <EntitySet Name="__RefactorLog" EntityType="Self.__RefactorLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CategoryPrice" EntityType="Self.CategoryPrice" Schema="price" store:Type="Tables" />
+          <EntitySet Name="SizingRange" EntityType="Self.SizingRange" Schema="price" store:Type="Tables" />
+          <EntitySet Name="SizingWeightPrice" EntityType="Self.SizingWeightPrice" Schema="price" store:Type="Tables" />
+          <EntitySet Name="WeightsRange" EntityType="Self.WeightsRange" Schema="price" store:Type="Tables" />
+          <EntitySet Name="Connection" EntityType="Self.Connection" Schema="route" store:Type="Tables" />
+          <EntitySet Name="Location" EntityType="Self.Location" Schema="route" store:Type="Tables" />
+          <EntitySet Name="PlaneCapacity" EntityType="Self.PlaneCapacity" Schema="route" store:Type="Tables" />
+          <EntitySet Name="Permission" EntityType="Self.Permission" Schema="security" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="security" store:Type="Tables" />
+          <EntitySet Name="UserPermission" EntityType="Self.UserPermission" Schema="security" store:Type="Tables" />
+          <AssociationSet Name="FK_Connection_Destination" Association="Self.FK_Connection_Destination">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Connection" EntitySet="Connection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Connection_Origin" Association="Self.FK_Connection_Origin">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Connection" EntitySet="Connection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Connection_PlaneCapacity" Association="Self.FK_Connection_PlaneCapacity">
+            <End Role="PlaneCapacity" EntitySet="PlaneCapacity" />
+            <End Role="Connection" EntitySet="Connection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SizingWeightPrice_Size" Association="Self.FK_SizingWeightPrice_Size">
+            <End Role="SizingRange" EntitySet="SizingRange" />
+            <End Role="SizingWeightPrice" EntitySet="SizingWeightPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SizingWeightPrice_Weight" Association="Self.FK_SizingWeightPrice_Weight">
+            <End Role="WeightsRange" EntitySet="WeightsRange" />
+            <End Role="SizingWeightPrice" EntitySet="SizingWeightPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserPermission_Permission" Association="Self.FK_UserPermission_Permission">
+            <End Role="Permission" EntitySet="Permission" />
+            <End Role="UserPermission" EntitySet="UserPermission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserPermission_User" Association="Self.FK_UserPermission_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserPermission" EntitySet="UserPermission" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OceanicRoutePlanner.DAL.OceanicModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CategoryPrice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PriceRate" Type="Decimal" Precision="3" Scale="2" />
+        </EntityType>
+        <EntityType Name="SizingRange">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaxHeight" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MaxDepth" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MaxBreadth" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="SizingWeightPrices" Relationship="Self.FK_SizingWeightPrice_Size" FromRole="SizingRange" ToRole="SizingWeightPrice" />
+        </EntityType>
+        <EntityType Name="SizingWeightPrice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Weight" Type="Int32" />
+          <Property Name="Size" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="SizingRange" Relationship="Self.FK_SizingWeightPrice_Size" FromRole="SizingWeightPrice" ToRole="SizingRange" />
+          <NavigationProperty Name="WeightsRange" Relationship="Self.FK_SizingWeightPrice_Weight" FromRole="SizingWeightPrice" ToRole="WeightsRange" />
+        </EntityType>
+        <EntityType Name="WeightsRange">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WeightFrom" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="WeightTo" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="SizingWeightPrices" Relationship="Self.FK_SizingWeightPrice_Weight" FromRole="WeightsRange" ToRole="SizingWeightPrice" />
+        </EntityType>
+        <EntityType Name="Connection">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Node1" Type="Int32" Nullable="false" />
+          <Property Name="Node2" Type="Int32" Nullable="false" />
+          <Property Name="Duration" Type="Int32" />
+          <Property Name="Cost" Type="Decimal" Precision="3" Scale="2" />
+          <Property Name="PlaneType" Type="Int32" />
+          <NavigationProperty Name="Location" Relationship="Self.FK_Connection_Destination" FromRole="Connection" ToRole="Location" />
+          <NavigationProperty Name="Location1" Relationship="Self.FK_Connection_Origin" FromRole="Connection" ToRole="Location" />
+          <NavigationProperty Name="PlaneCapacity" Relationship="Self.FK_Connection_PlaneCapacity" FromRole="Connection" ToRole="PlaneCapacity" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="City_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Connections" Relationship="Self.FK_Connection_Destination" FromRole="Location" ToRole="Connection" />
+          <NavigationProperty Name="Connections1" Relationship="Self.FK_Connection_Origin" FromRole="Location" ToRole="Connection" />
+        </EntityType>
+        <EntityType Name="PlaneCapacity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaxWidth" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MaxLenght" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MaxHeight" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MaxWeight" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Connections" Relationship="Self.FK_Connection_PlaneCapacity" FromRole="PlaneCapacity" ToRole="Connection" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserPermissions" Relationship="Self.FK_UserPermission_Permission" FromRole="Permission" ToRole="UserPermission" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserPermissions" Relationship="Self.FK_UserPermission_User" FromRole="User" ToRole="UserPermission" />
+        </EntityType>
+        <EntityType Name="UserPermission">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User" Type="Int32" />
+          <Property Name="Permission" Type="Int32" />
+          <NavigationProperty Name="Permission1" Relationship="Self.FK_UserPermission_Permission" FromRole="UserPermission" ToRole="Permission" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_UserPermission_User" FromRole="UserPermission" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_SizingWeightPrice_Size">
+          <End Role="SizingRange" Type="Self.SizingRange" Multiplicity="0..1" />
+          <End Role="SizingWeightPrice" Type="Self.SizingWeightPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SizingRange">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SizingWeightPrice">
+              <PropertyRef Name="Size" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SizingWeightPrice_Weight">
+          <End Role="WeightsRange" Type="Self.WeightsRange" Multiplicity="0..1" />
+          <End Role="SizingWeightPrice" Type="Self.SizingWeightPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WeightsRange">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SizingWeightPrice">
+              <PropertyRef Name="Weight" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Connection_Destination">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Connection" Type="Self.Connection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Connection">
+              <PropertyRef Name="Node2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Connection_Origin">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Connection" Type="Self.Connection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Connection">
+              <PropertyRef Name="Node1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Connection_PlaneCapacity">
+          <End Role="PlaneCapacity" Type="Self.PlaneCapacity" Multiplicity="0..1" />
+          <End Role="Connection" Type="Self.Connection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlaneCapacity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Connection">
+              <PropertyRef Name="PlaneType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserPermission_Permission">
+          <End Role="Permission" Type="Self.Permission" Multiplicity="0..1" />
+          <End Role="UserPermission" Type="Self.UserPermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permission">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserPermission">
+              <PropertyRef Name="Permission" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserPermission_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="UserPermission" Type="Self.UserPermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserPermission">
+              <PropertyRef Name="User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OceanicEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__RefactorLog" EntityType="Self.C__RefactorLog" />
+          <EntitySet Name="CategoryPrices" EntityType="Self.CategoryPrice" />
+          <EntitySet Name="SizingRanges" EntityType="Self.SizingRange" />
+          <EntitySet Name="SizingWeightPrices" EntityType="Self.SizingWeightPrice" />
+          <EntitySet Name="WeightsRanges" EntityType="Self.WeightsRange" />
+          <EntitySet Name="Connections" EntityType="Self.Connection" />
+          <EntitySet Name="Locations" EntityType="Self.Location" />
+          <EntitySet Name="PlaneCapacities" EntityType="Self.PlaneCapacity" />
+          <EntitySet Name="Permissions" EntityType="Self.Permission" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="UserPermissions" EntityType="Self.UserPermission" />
+          <AssociationSet Name="FK_SizingWeightPrice_Size" Association="Self.FK_SizingWeightPrice_Size">
+            <End Role="SizingRange" EntitySet="SizingRanges" />
+            <End Role="SizingWeightPrice" EntitySet="SizingWeightPrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SizingWeightPrice_Weight" Association="Self.FK_SizingWeightPrice_Weight">
+            <End Role="WeightsRange" EntitySet="WeightsRanges" />
+            <End Role="SizingWeightPrice" EntitySet="SizingWeightPrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Connection_Destination" Association="Self.FK_Connection_Destination">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Connection" EntitySet="Connections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Connection_Origin" Association="Self.FK_Connection_Origin">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Connection" EntitySet="Connections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Connection_PlaneCapacity" Association="Self.FK_Connection_PlaneCapacity">
+            <End Role="PlaneCapacity" EntitySet="PlaneCapacities" />
+            <End Role="Connection" EntitySet="Connections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserPermission_Permission" Association="Self.FK_UserPermission_Permission">
+            <End Role="Permission" EntitySet="Permissions" />
+            <End Role="UserPermission" EntitySet="UserPermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserPermission_User" Association="Self.FK_UserPermission_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserPermission" EntitySet="UserPermissions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OceanicRoutePlannerDALOceanicModelStoreContainer" CdmEntityContainer="OceanicEntities">
+          <EntitySetMapping Name="C__RefactorLog">
+            <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.C__RefactorLog">
+              <MappingFragment StoreEntitySet="__RefactorLog">
+                <ScalarProperty Name="OperationKey" ColumnName="OperationKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategoryPrices">
+            <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.CategoryPrice">
+              <MappingFragment StoreEntitySet="CategoryPrice">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="PriceRate" ColumnName="PriceRate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SizingRanges">
+            <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.SizingRange">
+              <MappingFragment StoreEntitySet="SizingRange">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MaxHeight" ColumnName="MaxHeight" />
+                <ScalarProperty Name="MaxDepth" ColumnName="MaxDepth" />
+                <ScalarProperty Name="MaxBreadth" ColumnName="MaxBreadth" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SizingWeightPrices">
+            <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.SizingWeightPrice">
+              <MappingFragment StoreEntitySet="SizingWeightPrice">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WeightsRanges">
+            <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.WeightsRange">
+              <MappingFragment StoreEntitySet="WeightsRange">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="WeightFrom" ColumnName="WeightFrom" />
+                <ScalarProperty Name="WeightTo" ColumnName="WeightTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Connections">
+            <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.Connection">
+              <MappingFragment StoreEntitySet="Connection">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Node1" ColumnName="Node1" />
+                <ScalarProperty Name="Node2" ColumnName="Node2" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="PlaneType" ColumnName="PlaneType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="City_Name" ColumnName="City_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlaneCapacities">
+            <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.PlaneCapacity">
+              <MappingFragment StoreEntitySet="PlaneCapacity">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MaxWidth" ColumnName="MaxWidth" />
+                <ScalarProperty Name="MaxLenght" ColumnName="MaxLenght" />
+                <ScalarProperty Name="MaxHeight" ColumnName="MaxHeight" />
+                <ScalarProperty Name="MaxWeight" ColumnName="MaxWeight" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permissions">
+            <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.Permission">
+              <MappingFragment StoreEntitySet="Permission">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserPermissions">
+            <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.UserPermission">
+              <MappingFragment StoreEntitySet="UserPermission">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="Permission" ColumnName="Permission" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="858b789dc9c44b71a3e5b1cfe241f6c8" Name="Diagram1">
+        <EntityTypeShape EntityType="OceanicRoutePlanner.DAL.OceanicModel.C__RefactorLog" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OceanicRoutePlanner.DAL.OceanicModel.CategoryPrice" Width="1.5" PointX="7.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OceanicRoutePlanner.DAL.OceanicModel.SizingRange" Width="1.5" PointX="5.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="OceanicRoutePlanner.DAL.OceanicModel.SizingWeightPrice" Width="1.5" PointX="8" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OceanicRoutePlanner.DAL.OceanicModel.WeightsRange" Width="1.5" PointX="5.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OceanicRoutePlanner.DAL.OceanicModel.Connection" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="OceanicRoutePlanner.DAL.OceanicModel.Location" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OceanicRoutePlanner.DAL.OceanicModel.PlaneCapacity" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OceanicRoutePlanner.DAL.OceanicModel.Permission" Width="1.5" PointX="2.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OceanicRoutePlanner.DAL.OceanicModel.User" Width="1.5" PointX="2.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="OceanicRoutePlanner.DAL.OceanicModel.UserPermission" Width="1.5" PointX="5" PointY="4.875" IsExpanded="true" />
+        <AssociationConnector Association="OceanicRoutePlanner.DAL.OceanicModel.FK_SizingWeightPrice_Size" ManuallyRouted="false" />
+        <AssociationConnector Association="OceanicRoutePlanner.DAL.OceanicModel.FK_SizingWeightPrice_Weight" ManuallyRouted="false" />
+        <AssociationConnector Association="OceanicRoutePlanner.DAL.OceanicModel.FK_Connection_Destination" ManuallyRouted="false" />
+        <AssociationConnector Association="OceanicRoutePlanner.DAL.OceanicModel.FK_Connection_Origin" ManuallyRouted="false" />
+        <AssociationConnector Association="OceanicRoutePlanner.DAL.OceanicModel.FK_Connection_PlaneCapacity" ManuallyRouted="false" />
+        <AssociationConnector Association="OceanicRoutePlanner.DAL.OceanicModel.FK_UserPermission_Permission" ManuallyRouted="false" />
+        <AssociationConnector Association="OceanicRoutePlanner.DAL.OceanicModel.FK_UserPermission_User" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

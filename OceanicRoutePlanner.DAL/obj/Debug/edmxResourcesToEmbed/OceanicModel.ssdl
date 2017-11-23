@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OceanicRoutePlanner.DAL.OceanicModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="__RefactorLog">
+    <Key>
+      <PropertyRef Name="OperationKey" />
+    </Key>
+    <Property Name="OperationKey" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CategoryPrice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="PriceRate" Type="decimal" Precision="3" Scale="2" />
+  </EntityType>
+  <EntityType Name="SizingRange">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MaxHeight" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="MaxDepth" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="MaxBreadth" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="SizingWeightPrice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Weight" Type="int" />
+    <Property Name="Size" Type="int" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="WeightsRange">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WeightFrom" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="WeightTo" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="Connection">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Node1" Type="int" Nullable="false" />
+    <Property Name="Node2" Type="int" Nullable="false" />
+    <Property Name="Duration" Type="int" />
+    <Property Name="Cost" Type="decimal" Precision="3" Scale="2" />
+    <Property Name="PlaneType" Type="int" />
+  </EntityType>
+  <EntityType Name="Location">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="City_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PlaneCapacity">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MaxWidth" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="MaxLenght" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="MaxHeight" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="MaxWeight" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="Permission">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="50" />
+    <Property Name="Password" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="UserPermission">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="User" Type="int" />
+    <Property Name="Permission" Type="int" />
+  </EntityType>
+  <Association Name="FK_Connection_Destination">
+    <End Role="Location" Type="Self.Location" Multiplicity="1" />
+    <End Role="Connection" Type="Self.Connection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Location">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Connection">
+        <PropertyRef Name="Node2" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Connection_Origin">
+    <End Role="Location" Type="Self.Location" Multiplicity="1" />
+    <End Role="Connection" Type="Self.Connection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Location">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Connection">
+        <PropertyRef Name="Node1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Connection_PlaneCapacity">
+    <End Role="PlaneCapacity" Type="Self.PlaneCapacity" Multiplicity="0..1" />
+    <End Role="Connection" Type="Self.Connection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PlaneCapacity">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Connection">
+        <PropertyRef Name="PlaneType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SizingWeightPrice_Size">
+    <End Role="SizingRange" Type="Self.SizingRange" Multiplicity="0..1" />
+    <End Role="SizingWeightPrice" Type="Self.SizingWeightPrice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SizingRange">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SizingWeightPrice">
+        <PropertyRef Name="Size" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SizingWeightPrice_Weight">
+    <End Role="WeightsRange" Type="Self.WeightsRange" Multiplicity="0..1" />
+    <End Role="SizingWeightPrice" Type="Self.SizingWeightPrice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WeightsRange">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SizingWeightPrice">
+        <PropertyRef Name="Weight" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserPermission_Permission">
+    <End Role="Permission" Type="Self.Permission" Multiplicity="0..1" />
+    <End Role="UserPermission" Type="Self.UserPermission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Permission">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserPermission">
+        <PropertyRef Name="Permission" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserPermission_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="UserPermission" Type="Self.UserPermission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserPermission">
+        <PropertyRef Name="User" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="OceanicRoutePlannerDALOceanicModelStoreContainer">
+    <EntitySet Name="__RefactorLog" EntityType="Self.__RefactorLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CategoryPrice" EntityType="Self.CategoryPrice" Schema="price" store:Type="Tables" />
+    <EntitySet Name="SizingRange" EntityType="Self.SizingRange" Schema="price" store:Type="Tables" />
+    <EntitySet Name="SizingWeightPrice" EntityType="Self.SizingWeightPrice" Schema="price" store:Type="Tables" />
+    <EntitySet Name="WeightsRange" EntityType="Self.WeightsRange" Schema="price" store:Type="Tables" />
+    <EntitySet Name="Connection" EntityType="Self.Connection" Schema="route" store:Type="Tables" />
+    <EntitySet Name="Location" EntityType="Self.Location" Schema="route" store:Type="Tables" />
+    <EntitySet Name="PlaneCapacity" EntityType="Self.PlaneCapacity" Schema="route" store:Type="Tables" />
+    <EntitySet Name="Permission" EntityType="Self.Permission" Schema="security" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="security" store:Type="Tables" />
+    <EntitySet Name="UserPermission" EntityType="Self.UserPermission" Schema="security" store:Type="Tables" />
+    <AssociationSet Name="FK_Connection_Destination" Association="Self.FK_Connection_Destination">
+      <End Role="Location" EntitySet="Location" />
+      <End Role="Connection" EntitySet="Connection" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Connection_Origin" Association="Self.FK_Connection_Origin">
+      <End Role="Location" EntitySet="Location" />
+      <End Role="Connection" EntitySet="Connection" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Connection_PlaneCapacity" Association="Self.FK_Connection_PlaneCapacity">
+      <End Role="PlaneCapacity" EntitySet="PlaneCapacity" />
+      <End Role="Connection" EntitySet="Connection" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SizingWeightPrice_Size" Association="Self.FK_SizingWeightPrice_Size">
+      <End Role="SizingRange" EntitySet="SizingRange" />
+      <End Role="SizingWeightPrice" EntitySet="SizingWeightPrice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SizingWeightPrice_Weight" Association="Self.FK_SizingWeightPrice_Weight">
+      <End Role="WeightsRange" EntitySet="WeightsRange" />
+      <End Role="SizingWeightPrice" EntitySet="SizingWeightPrice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserPermission_Permission" Association="Self.FK_UserPermission_Permission">
+      <End Role="Permission" EntitySet="Permission" />
+      <End Role="UserPermission" EntitySet="UserPermission" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserPermission_User" Association="Self.FK_UserPermission_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="UserPermission" EntitySet="UserPermission" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

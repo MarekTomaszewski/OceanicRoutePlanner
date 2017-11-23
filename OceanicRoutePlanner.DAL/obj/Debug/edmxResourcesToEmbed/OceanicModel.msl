@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="OceanicRoutePlannerDALOceanicModelStoreContainer" CdmEntityContainer="OceanicEntities">
+    <EntitySetMapping Name="C__RefactorLog">
+      <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.C__RefactorLog">
+        <MappingFragment StoreEntitySet="__RefactorLog">
+          <ScalarProperty Name="OperationKey" ColumnName="OperationKey" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CategoryPrices">
+      <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.CategoryPrice">
+        <MappingFragment StoreEntitySet="CategoryPrice">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="PriceRate" ColumnName="PriceRate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SizingRanges">
+      <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.SizingRange">
+        <MappingFragment StoreEntitySet="SizingRange">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MaxHeight" ColumnName="MaxHeight" />
+          <ScalarProperty Name="MaxDepth" ColumnName="MaxDepth" />
+          <ScalarProperty Name="MaxBreadth" ColumnName="MaxBreadth" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SizingWeightPrices">
+      <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.SizingWeightPrice">
+        <MappingFragment StoreEntitySet="SizingWeightPrice">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Weight" ColumnName="Weight" />
+          <ScalarProperty Name="Size" ColumnName="Size" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WeightsRanges">
+      <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.WeightsRange">
+        <MappingFragment StoreEntitySet="WeightsRange">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="WeightFrom" ColumnName="WeightFrom" />
+          <ScalarProperty Name="WeightTo" ColumnName="WeightTo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Connections">
+      <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.Connection">
+        <MappingFragment StoreEntitySet="Connection">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Node1" ColumnName="Node1" />
+          <ScalarProperty Name="Node2" ColumnName="Node2" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="PlaneType" ColumnName="PlaneType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Locations">
+      <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.Location">
+        <MappingFragment StoreEntitySet="Location">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="City_Name" ColumnName="City_Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PlaneCapacities">
+      <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.PlaneCapacity">
+        <MappingFragment StoreEntitySet="PlaneCapacity">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MaxWidth" ColumnName="MaxWidth" />
+          <ScalarProperty Name="MaxLenght" ColumnName="MaxLenght" />
+          <ScalarProperty Name="MaxHeight" ColumnName="MaxHeight" />
+          <ScalarProperty Name="MaxWeight" ColumnName="MaxWeight" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Permissions">
+      <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.Permission">
+        <MappingFragment StoreEntitySet="Permission">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserPermissions">
+      <EntityTypeMapping TypeName="OceanicRoutePlanner.DAL.OceanicModel.UserPermission">
+        <MappingFragment StoreEntitySet="UserPermission">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="User" ColumnName="User" />
+          <ScalarProperty Name="Permission" ColumnName="Permission" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
